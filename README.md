@@ -2,6 +2,10 @@
 
 Implementation of different magnetometer calibration algorithms.
 
+## Index
+
+1. [ellipsoid](ellipsoid) - Ellipsoid fit based magnetometer calibration.
+
 ## Todos
 
 1. Check the weirdness in plot_ellipsoid()
