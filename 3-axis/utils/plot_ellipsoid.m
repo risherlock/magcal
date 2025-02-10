@@ -1,10 +1,10 @@
 function [] = plot_ellipsoid(v)
-% Plots ellipsoid from coefficients of general quadrics equation
-% Result of whole night discussion with Manjul (2020/6/8-9) 
+% Plots ellipsoid from coefficients of general quadrics equation.
+% Result of whole night discussion with Manjul (2020/6/8-9).
 %
 % Input:
-%   v = [a,b,c,f,g,h,p,q,r,d], a vector corresponding to coefficients of 
-%       the general quadric surface given by equation,  
+%   v = [a,b,c,f,g,h,p,q,r,d], a vector corresponding to coefficients of
+%       the general quadric surface given by equation,
 %       ax2 + by2 + cz2 + 2fyz + 2gxz + 2hxy + 2px + 2qy + 2rz + d = 0.
 %
 % Notes:
@@ -13,12 +13,12 @@ function [] = plot_ellipsoid(v)
 %       X = [x,y,z]
 %       M = [a h g; h b f; g f c]
 %
-% 2.Diagonalizing above matrix M to M_ rotates the general ellipsoid such 
+% 2.Diagonalizing above matrix M to M_ rotates the general ellipsoid such
 %   that its axes aligns with new coordinate axes defined by eigenvectors.
-%   New ellipsoid: X'*C'*M*C*X + [2p,2q,2r]*C*X + d = 0
-%   where,    
-%       C  = Eigenvector matrix of M (DCM from old to new coordinates)
-%       M_ = C'*M*C= New ellipsoid diagonal matrix
+%   New ellipsoid: X'*Q'*M*Q*X + [2p,2q,2r]*Q*X + d = 0
+%   where,
+%       Q  = Eigenvector matrix of M (DCM from old to new coordinates)
+%       M_ = Q'*M*Q= New ellipsoid diagonal matrix
 %
 %
 % 3.Semi principal axes (ax,by,cz) for ellipsoid with no rotation
@@ -28,30 +28,30 @@ function [] = plot_ellipsoid(v)
 %   here, f = 0, g = 0 and h = 0
 %
 % Steps:
-%   1) Diagonalize M matrix using eigenvector of M, M_ = C'*M*C
-%   2) Find p,q,r of new matrix, [p_,q_,r_] = [p,q,r]*C
+%   1) Diagonalize M matrix using eigenvector of M, M_ = Q'*M*Q
+%   2) Find p,q,r of new matrix, [p_,q_,r_] = [p,q,r]*Q
 %   3) Find semi principal axes ax_,ay_,az_ for f = g = h = 0
 %   4) Generate points of ellipsoid using parametric equation
-%   5) Rotate the points using DCM, C
-%   6) Plot the points  
+%   5) Rotate the points using DCM, Q
+%   6) Plot the points
 %
 % 2020/6/8
 
 % Unpack ellipsoid coefficients
 a = v(1); b = v(2); c = v(3);
-f = v(4); g = v(5); h = v(6); 
-p = v(7); q = v(8); r = v(9); 
-d = v(10); 
+f = v(4); g = v(5); h = v(6);
+p = v(7); q = v(8); r = v(9);
+d = v(10);
 
-% Coordinate frame transformation i.e diagonalize M 
-M =[a h g; h b f; g f c]; % Original ellipsoid matrix 
+% Coordinate frame transformation i.e diagonalize M
+M =[a h g; h b f; g f c]; % Original ellipsoid matrix
 [evec,~]=eig(M); % Compute eigenvectors matrix
-C = evec; % DCM = eigenvectors matrix 
-M_ = C'*M*C; % Diagonalize M
+Q = evec; % DCM = eigenvectors matrix
+M_ = Q'*M*Q; % Diagonalize M
 
 % Coefficients of the ellipsoid in new frame
-% Note the ellipsoid is not rotating in this new frame so f, g and h = 0 
-pqr_ = [p,q,r]*C;   
+% Note the ellipsoid is not rotating in this new frame so f, g and h = 0
+pqr_ = [p,q,r]*Q;
 a_ = M_(1,1);
 b_ = M_(2,2);
 c_ = M_(3,3);
@@ -78,22 +78,17 @@ z_ = cx_*sin(theta);
 
 %%% Note
 % Till now we have extracted all the information from the
-% input coefficients of ellipsoid. We generated the points of ellipsoid 
-% too. It must be remembered that these points are described in the 
-% coordinate represented by eigenvectors where there is no rotation of 
-% ellipsoid. Now all that remains is to rotate each points using DCM (C) 
+% input coefficients of ellipsoid. We generated the points of ellipsoid
+% too. It must be remembered that these points are described in the
+% coordinate represented by eigenvectors where there is no rotation of
+% ellipsoid. Now all that remains is to rotate each points using DCM (Q)
 % that we found above.
 
-%%% Uncomment this to view unrotated ellipsoid
-% mesh(x_,y_,z_,'FaceAlpha','0.5')
-% axis equal
-% hold on;
-
-% Rotate ellipsoid 
+% Rotate ellipsoid
 grid_size = length(x_);
 x_ = x_(:); y_ = y_(:); z_ = z_(:);
 for i_iters = 1:length(x_)
-    after_rot = C*[x_(i_iters), y_(i_iters), z_(i_iters)]';
+    after_rot = Q*[x_(i_iters), y_(i_iters), z_(i_iters)]';
     x_(i_iters) = centre(1) + after_rot(1);
     y_(i_iters) = centre(2) + after_rot(2);
     z_(i_iters) = centre(3) + after_rot(3);
@@ -105,8 +100,7 @@ y_ = reshape(y_,grid_size,grid_size);
 z_ = reshape(z_,grid_size,grid_size);
 
 % Plot the ellipsoid corresponding to input coefficients
-mesh(x_,y_,z_,'FaceAlpha','0.4','MarkerFaceColor','red')
-hold on;
-axis equal
-hold on;
+m = mesh(x_,y_,z_,'MarkerFaceColor','red', 'FaceAlpha', 0.4);
+set(m,'facealpha',0.4);
+hold on; axis equal;
 end

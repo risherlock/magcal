@@ -1,27 +1,23 @@
-function [] = plot_sphere(centre,radius)
-% Plots sphere 
+function [] = plot_sphere(pc, r)
+% Plots sphere
 %
 % Input:
-%   centre = A vector [xc,yc,zc] representating centre of sphere. 
-%   radius = Radius of sphere.
+%   pc = A point [xc, yc, zc] representating centre of sphere.
+%   r = Radius of sphere.
 %
 % 2020/06/04
 
-x_c = centre(1);
-y_c = centre(2);
-z_c = centre(3);
-
 % Circle parametric equation
-theta       = linspace(0,2*pi,20);
-phi         = linspace(0,pi,20);
+theta = linspace(0,2*pi,20);
+phi = linspace(0,pi,20);
 [theta,phi] = meshgrid(theta,phi);
-rho         = radius;
+rho = r;
 
-x = x_c + rho*sin(phi).*cos(theta);
-y = y_c + rho*sin(phi).*sin(theta);
-z = z_c + rho*cos(phi);
+x = pc(1) + rho*sin(phi).*cos(theta);
+y = pc(2) + rho*sin(phi).*sin(theta);
+z = pc(3) + rho*cos(phi);
 
-mesh(x,y,z,'FaceAlpha','0.4')
-axis equal
-hold on;
+m = mesh(x,y,z);
+set(m,'FaceAlpha',0.4);
+axis equal; hold on; grid on;
 end

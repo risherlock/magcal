@@ -1,5 +1,9 @@
-# Compass-Calibration
+# magcal
 
-|![alt text](https://github.com/risherlock/Compass-Calibration/blob/master/docs/calibration_result.png)|
-|:--:| 
-| *Fig. Result of batch magnetometer calibration algorithm using least-squared ellipsoid fitting.* |
+Implementation of different magnetometer calibration algorithms.
+
+## Todos
+
+1. Check the weirdness in plot_ellipsoid()
+2. Add about five sets of real magnetometer data
+3. Documentation of the calibration process
