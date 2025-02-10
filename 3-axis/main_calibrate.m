@@ -21,7 +21,7 @@ m_hat = Ainv * (m - b);
 
 % Plot uncalibrated data
 subplot(1,2,1);
-scatter3(m_hat(1, :), m_hat(2, :), m_hat(3, :),'fill','MarkerFaceColor','red');
+scatter3(x, y, z,'fill','MarkerFaceColor','red');
 title({'Before magnetometer calibration','(Ellipsoid fitted)'});
 xlabel('X-axis'); ylabel('Y-axis'); zlabel('Z-axis');
 axis equal;
