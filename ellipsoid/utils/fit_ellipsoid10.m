@@ -1,4 +1,4 @@
-function [u] = ellipsoid_fit(x,y,z)
+function [u] = fit_ellipsoid10(x,y,z)
 % Fits an general ellipse with 10 parameters to the input sets of coordinates.
 %
 % Inputs:

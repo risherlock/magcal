@@ -52,9 +52,7 @@ end
 % Ellipsoid coefficients to calibration params
 function [A, Ainv, b] = get_calibration_params(v)
   % Ellipsoid in matrix form: Ax + k = 0
-  A = [v(1), v(6), v(5);
-       v(6), v(2), v(4);
-       v(5), v(4), v(3)];
+  A = [v(1), v(6), v(5); v(6), v(2), v(4); v(5), v(4), v(3)];
   k = [v(7); v(8); v(9)];
 
   % Soft-iron correction matrix
@@ -66,8 +64,8 @@ end
 
 % Magnitude of magnetic field intensity (normalized radius)
 function [r] = get_field_intensity(v, A, b)
-  terms =  A(1,1) * b(1)^2 + 2 * A(1,2) * b(1) * b(2)
-         + A(2,2) * b(2)^2 + 2 * A(1,3) * b(1) * b(3)
+  terms =  A(1,1) * b(1)^2 + 2 * A(1,2) * b(1) * b(2) ...
+         + A(2,2) * b(2)^2 + 2 * A(1,3) * b(1) * b(3) ...
          + A(3,3) * b(3)^2 + 2 * A(2,3) * b(2) * b(3) - v(10);
   r = sqrt(abs(terms)) / sqrt(nthroot(det(A), 3));
 end
