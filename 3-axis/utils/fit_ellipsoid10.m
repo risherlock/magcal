@@ -1,5 +1,5 @@
 function [u] = ellipsoid_fit(x,y,z)
-% Ellipsoid fitting algorithm
+% Fits an general ellipse with 10 parameters to the input sets of coordinates.
 %
 % Inputs:
 %   x [nx1]: x coordinates of input data

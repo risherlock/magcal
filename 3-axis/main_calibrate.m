@@ -14,8 +14,7 @@ y = raw(:,2);
 z = raw(:,3);
 
 % Ellipsoid fit calibration
-v = ellipsoid_fit(x, y, z);
-[Ainv, b, r, rmse] = magcal_ellipsoid(x, y, z);
+[Ainv, b, r, rmse] = magcal(x, y, z);
 m = [x, y, z]';
 m_hat = Ainv * (m - b);
 
