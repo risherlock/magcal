@@ -1,4 +1,4 @@
-% Test of ellipsoid_fit.m function
+% Test of fit_ellipsoid10.m function
 clc
 clear 
 close all
@@ -56,7 +56,7 @@ y = awgn(y,SNR,'measured');
 z = awgn(z,SNR,'measured');
 
 % Ellipsoid fit algoritm
-v = ellipsoid_fit(x,y,z);
+v = fit_ellipsoid10(x,y,z);
 
 % Plot and camera settings
 % set(gca,'NextPlot','add', 'Visible','off'); view(59,13); hold on;
